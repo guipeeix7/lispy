@@ -29,6 +29,9 @@ class LispTransformer(InlineTransformer):
     def string(self, value):
         return str(eval(value))
 
+    def quote(self, expr):
+        return [Symbol.QUOTE, expr]
+
 def parse(src: str):
     """
     Compila string de entrada e retorna a S-expression equivalente.

@@ -10,7 +10,11 @@
 
 ?list : "(" expr* ")" -> lista
 
-?expr : atom | list
+?expr : atom | list | quote
+
+?quote : "'" expr -> quote
+
+?lambda : list expr -> lambda
 
 
 // Terminais

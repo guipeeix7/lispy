@@ -41,12 +41,18 @@ def eval(x, env=None):
     # Comando (quote <expression>)
     # (quote (1 2 3))
     elif head == Symbol.QUOTE:
-        return NotImplemented
+        return args[0]
 
     # Comando (let <expression> <expression>)
     # (let ((x 1) (y 2)) (+ x y))
     elif head == Symbol.LET:
-        return NotImplemented
+        (defs, expr) = args
+        local = ChainMap({}, env)
+
+        for i in defs:
+            eval([Symbol.DEFINE, i[0], i[1]], local)
+
+        return eval(expr, local)
 
     # Comando (lambda <vars> <body>)
     # (lambda (x) (+ x 1))
@@ -57,7 +63,7 @@ def eval(x, env=None):
     # (sqrt 4)
     else:
         proc = eval(x[0], env)
-        args = [eval(arg, env) for arg in x[1:]]
+        args = [eval(arg, env) for arg in args]
         return proc(*args)
 
 
